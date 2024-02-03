@@ -1,14 +1,21 @@
 import React from 'react'
 import Item from './item'
 
+const List =({todos})=>{
 
-const List =()=>{
+  const elements = todos.map((item)=>{
+
+    const {id, ...items} = item
+
     return(
-      <lu>
-        <li><Item lable='First point'/></li>
-        <li><Item lable='Second point' important/></li>
-        <li><Item lable='Third point'/></li>
-      </lu>
+    <li key={id}><Item {...items}/></li>
+    )
+  })
+
+    return(
+      <ul>
+        {elements}
+      </ul>
     )
   }
 

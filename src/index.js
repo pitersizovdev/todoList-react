@@ -5,11 +5,18 @@ import Search from './components/search';
 import List from './components/list';
 
 const App =()=>{
+
+  const data =[
+    {label: 'First', important:false, id:1},
+    {label: 'Second', important:true, id:2},
+    {label: 'Third', important:false, id:3}
+  ]
+
   return(
     <>
     <Header/>
     <Search/>
-    <List/>
+    <List todos={data}/>
   </>
   )
 }

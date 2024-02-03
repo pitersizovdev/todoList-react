@@ -1,9 +1,10 @@
 import React from "react";
 
-const Item =({lable, important =false})=>{
+const Item =({label, important =false})=>{
+
     const style = {color: important ? 'red': 'black'}
 
-    return <span style={style}>{lable}</span>
+    return <span style={style}>{label}</span>
 }
 
 export default Item
