@@ -9,13 +9,13 @@ import Add from '../add/add';
 export default class App extends Component{
 
   maxId = 100
-
   state={
     data: [
       this.createItem('Created First'),
       this.createItem('Created Second'),
       this.createItem('Created Third')
-    ]
+    ],
+    term: ''
   }
 
   createItem(label){
@@ -26,7 +26,6 @@ export default class App extends Component{
       id: this.maxId++
     }
   }
-
   addItem=(txt)=>{
     const newItem = this.createItem(txt)
 
@@ -41,7 +40,6 @@ export default class App extends Component{
       }
     })
   }
-
   deleteItem=(id)=>{
     this.setState(({data})=>{
       const i = data.findIndex((el)=> el.id === id)
@@ -53,7 +51,6 @@ export default class App extends Component{
       }
     })
   }
-
   toggleProperty(arr, id, propName){
     const i = arr.findIndex((el)=> el.id === id)
 
@@ -62,25 +59,35 @@ export default class App extends Component{
 
     return [...arr.slice(0, i), newItem, ...arr.slice(i+1)]
   }
-
-  onToggleDone =(id)=>{
+  onToggleDone=(id)=>{
     this.setState(({data})=>{
       return {
         data: this.toggleProperty(data, id, 'done')
       }
     })
   }
-  onToggleImportant =(id)=>{
+  onToggleImportant=(id)=>{
     this.setState(({data})=>{
       return {
         data: this.toggleProperty(data, id, 'important')
       }
     })
   }
-
+  searchChange=(term)=>{
+    this.setState({term})
+  }
+  search(items, term){
+      if (term.length === 0){
+        return items
+      }
+      return items.filter((item)=>{
+        return item.label.toLowerCase().indexOf(term.toLowerCase())>-1
+      })
+  }
  
   render(){
-
+    const{data, term} = this.state
+    const visibleItems = this.search(data, term)
     const doneCount= this.state.data.filter((el)=>el.done).length
     const todoCount= this.state.data.length - doneCount
 
@@ -88,9 +95,9 @@ export default class App extends Component{
       <div className='todo-app'>
         <Header toDo={todoCount} done={doneCount}/>
         <Filter />
-        <Search />
+        <Search searchChange={this.searchChange}/>
         <List 
-          todos={this.state.data} 
+          todos={visibleItems} 
           deleted={this.deleteItem} 
           onToggleImportant={this.onToggleImportant}
           onToggleDone={this.onToggleDone}/>
@@ -98,5 +105,4 @@ export default class App extends Component{
       </div>
     );
   }
-
 }
