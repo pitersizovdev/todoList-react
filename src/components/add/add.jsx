@@ -4,7 +4,7 @@ import './add.css'
 export default class Add extends Component{
   render(){
     return(<div className='item-add-form'>
-        <button className='btn btn-outline-secondary item-add-form'>Add Item</button>
+        <button className='btn btn-outline-secondary item-add-form' onClick={()=>this.props.add('txtbnj')}>Add Item</button>
     </div>
   )} 
 }
