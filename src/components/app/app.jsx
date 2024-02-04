@@ -15,7 +15,8 @@ export default class App extends Component{
       this.createItem('Created Second'),
       this.createItem('Created Third')
     ],
-    term: ''
+    term: '',
+    filter: 'all'
   }
 
   createItem(label){
@@ -84,17 +85,32 @@ export default class App extends Component{
         return item.label.toLowerCase().indexOf(term.toLowerCase())>-1
       })
   }
+  filter(items, filter){
+    switch(filter){
+      case 'all': 
+        return items;
+      case 'active':
+        return items.filter((item) => !item.done);
+      case 'done': 
+        return items.filter((item) => item.done);
+      default:
+        return items;
+    }
+  }
+  filterChange=(filter)=>{
+    this.setState({filter})
+  }
  
   render(){
-    const{data, term} = this.state
-    const visibleItems = this.search(data, term)
+    const{data, term, filter} = this.state
+    const visibleItems = this.filter(this.search(data, term), filter)
     const doneCount= this.state.data.filter((el)=>el.done).length
     const todoCount= this.state.data.length - doneCount
 
     return (
       <div className='todo-app'>
         <Header toDo={todoCount} done={doneCount}/>
-        <Filter />
+        <Filter filter={filter} filterChange={this.filterChange}/>
         <Search searchChange={this.searchChange}/>
         <List 
           todos={visibleItems} 
