@@ -4,37 +4,46 @@ import './item.css'
 export default class Item extends Component{
 
 state ={
-    done: false
+    done: false,
+    important: false
 }
-
 labelClick =()=>{
-    this.setState({
-        done: true
+    this.setState(({done})=>{
+        return{
+            done: !done
+        }
     })
 }
+markImportant = () => {
+    this.setState(({ important }) => {
+        return {
+            important: !important
+        };
+    });
+};
 
 render() {
-    const { label, important = false } = this.props;
-    const {done} = this.state
-    const style = {
-        color: important ? 'red' : 'black',
-        fontWeight: important ? 'bold' : 'normal'
-    };
+    const { label, deleted } = this.props;
+    const {done, important} = this.state
+
     let classNames = 'todo-list-item'
     if (done){
         classNames += 'done'
     }
+    if (important){
+        classNames +='important'
+    }
 
     return (
         <span className={classNames}>
-            <span className="todo-list-item-label" style={style} onClick={this.labelClick}>{label}</span>
+            <span className="todo-list-item-label" onClick={this.labelClick}>{label}</span>
 
-            <button type="button" className="btn btn-outline-success btn-sm float-right">
+            <button type="button" className="btn btn-outline-success btn-sm float-right" onClick={this.markImportant}>
                 <i className="fa fa-exclamation"/>
             </button>
 
-            <button type="button" className="btn btn-outline-success btn-sm float-right">
-                <i className='fa fa-trash'/>
+            <button type="button" className="btn btn-outline-success btn-sm float-right" onClick={deleted}>
+                <span>-</span> 
             </button>
         </span>
     );
