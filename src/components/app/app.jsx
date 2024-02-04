@@ -3,6 +3,7 @@ import Header from '../header/header';
 import Filter from '../filter/filter';
 import Search from '../search/search';
 import List from '../list/list';
+import './app.css'
 
 
 const App = () => {
@@ -13,12 +14,12 @@ const App = () => {
   ];
 
   return (
-    <>
+    <div className='todo-app'>
       <Header />
       <Filter />
       <Search />
       <List todos={data} />
-    </>
+    </div>
   );
 };
 
